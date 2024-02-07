@@ -17,15 +17,12 @@ export async function initServer() {
       },
     },
   });
+  await server.register(require('@scalar/fastify-api-reference'), {
+    routePrefix: '/documentation',
+    title: 'Chroma API',
+  })
 
-  await server.register(require("@fastify/swagger-ui"), {
-    routePrefix: "/documentation",
-    uiConfig: {
-      docExpansion: "full",
-      deepLinking: false,
-    },
-    transformSpecificationClone: true,
-  });
+  
   await initDI();
   await server.register(fastifyAwilixPlugin, {
     disposeOnClose: true,

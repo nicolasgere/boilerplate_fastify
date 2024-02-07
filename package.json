@@ -7,8 +7,8 @@
   "dependencies": {
     "@fastify/awilix": "^4.0.0",
     "@fastify/swagger": "^8.14.0",
-    "@fastify/swagger-ui": "^2.1.0",
     "@fastify/type-provider-typebox": "^4.0.0",
+    "@scalar/fastify-api-reference": "^1.14.8",
     "@sinclair/typebox": "^0.32.13",
     "awilix": "^10.0.1",
     "fastify": "^4.26.0"

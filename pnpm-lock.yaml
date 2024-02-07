@@ -17,6 +17,9 @@ dependencies:
   '@fastify/type-provider-typebox':
     specifier: ^4.0.0
     version: 4.0.0(@sinclair/typebox@0.32.13)
+  '@scalar/fastify-api-reference':
+    specifier: ^1.14.8
+    version: 1.14.8(fastify-html@0.3.3)(fastify-plugin@4.5.1)(fastify@4.26.0)
   '@sinclair/typebox':
     specifier: ^0.32.13
     version: 0.32.13
@@ -356,6 +359,19 @@ packages:
       fastq: 1.17.1
     dev: false
 
+  /@scalar/fastify-api-reference@1.14.8(fastify-html@0.3.3)(fastify-plugin@4.5.1)(fastify@4.26.0):
+    resolution: {integrity: sha512-fsHHsWfpRQ4s+DhoYjQnwQmraNKj13Y+aZU2AFk/Un88cCwHqfJoN+ETzKRBK58YJqftWtEKFN6ROverXW4jkA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      fastify: ^4.0.0
+      fastify-html: ^0.3.0
+      fastify-plugin: ^4.0.0
+    dependencies:
+      fastify: 4.26.0
+      fastify-html: 0.3.3
+      fastify-plugin: 4.5.1
+    dev: false
+
   /@sinclair/typebox@0.32.13:
     resolution: {integrity: sha512-6gfhrgov2RWxPIlGyFcCVn1DejhmQvObIiBIx/Qx3FRnxlLS/RuoyDxK1hhhVU+S5+1Xmul32QALLErVfinyxw==}
     dev: false
@@ -600,6 +616,13 @@ packages:
     resolution: {integrity: sha512-eel5UKGn369gGEWOqBShmFJWfq/xSJvsgDzgLYC845GneayWvXBf0lJCBn5qTABfewy1ZDPoaR5OZCP+kssfuw==}
     dev: false
 
+  /fastify-html@0.3.3:
+    resolution: {integrity: sha512-gXOrdGOd7AWxMMmZl2esd/MgenEn5i9CApO7d6dkXZV/8kNn3/dm/VfkRUfTzvpVJUAsYM2FR+6bYHKcsC8p7w==}
+    dependencies:
+      fastify-plugin: 4.5.1
+      ghtml: 1.0.1
+    dev: false
+
   /fastify-plugin@4.5.1:
     resolution: {integrity: sha512-stRHYGeuqpEZTL1Ef0Ovr2ltazUT9g844X5z/zEBFLG8RYlpDiOCIG+ATvYEp+/zmc7sN29mcIMp8gvYplYPIQ==}
     dev: false
@@ -671,6 +694,11 @@ packages:
     dependencies:
       resolve-pkg-maps: 1.0.0
     dev: true
+
+  /ghtml@1.0.1:
+    resolution: {integrity: sha512-UazsDitjsbxCNksuUINln98LE+YNau/AaLJP752+Hac1zhgnwmwPILKSVaiuJ/ET0XvyQ/j8eEkUXUM10YHvMA==}
+    engines: {node: '>=18'}
+    dev: false
 
   /glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
