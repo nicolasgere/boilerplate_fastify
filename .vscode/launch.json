@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Run test",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "zsh",
+            "runtimeArgs": [
+                "-c",
+                "node --import tsx --test --test-reporter=spec ${file}",
+            ],
+            "console": "integratedTerminal",
+            "sourceMaps": true,
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "name": "Run server",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "pnpm",
+            "runtimeArgs": [
+                "run",
+                "dev",
+            ],
+            "console": "integratedTerminal",
+            "sourceMaps": true,
+            "internalConsoleOptions": "neverOpen"
+        },
+    ]
+}

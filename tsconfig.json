@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "jsx": "react-jsx",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "jsxImportSource": "hono/jsx",
+    "declaration": true,
+    "skipLibCheck": true
+  }
+}
