@@ -1,8 +1,14 @@
 {
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "test": "node --import tsx --test ./src/**.test.ts",
-    "build": "tsc --project tsconfig.json"
+    "test": "find src -name '*.test.ts' -exec node --import tsx --test {} ';'",
+    "build": "tsc --project tsconfig.json",
+    "db:generate_migration": "pnpm drizzle-kit generate:pg",
+    "db:push": "pnpm drizzle-kit push:pg",
+    "db:studio": "pnpm drizzle-kit studio",
+    "format": "biome check --apply src",
+    "format:check": "biome check src"
+
   },
   "dependencies": {
     "@fastify/awilix": "^4.0.0",
@@ -11,10 +17,17 @@
     "@scalar/fastify-api-reference": "^1.14.8",
     "@sinclair/typebox": "^0.32.13",
     "awilix": "^10.0.1",
-    "fastify": "^4.26.0"
+    "drizzle-orm": "^0.29.3",
+    "drizzle-typebox": "^0.1.1",
+    "fastify": "^4.26.0",
+    "pg": "^8.11.3"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.5.3",
+    "@faker-js/faker": "^8.4.1",
     "@types/node": "20.8.0",
+    "@types/pg": "^8.11.0",
+    "drizzle-kit": "^0.20.14",
     "tsx": "^3.12.2",
     "typescript": "^5.3.3"
   }

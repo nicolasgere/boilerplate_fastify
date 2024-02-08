@@ -6,6 +6,7 @@
     "esModuleInterop": true,
     "jsxImportSource": "hono/jsx",
     "declaration": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "noUnusedLocals": true
   }
 }
