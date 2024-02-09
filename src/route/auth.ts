@@ -110,7 +110,7 @@ export function registerAuthRoute() {
 		async (request, reply) => {
 			const { openIdService } = request.diScope.cradle;
 			const redirectUrl = await openIdService.getRedirectUrl(
-				"google",
+				request.params.provider,
 				"signup",
 			);
 			reply.redirect(302, redirectUrl);
@@ -135,7 +135,7 @@ export function registerAuthRoute() {
 			const config = configurationService.get()
 			const { code, state } = request.query;
 			const openIdUser = await openIdService.exchangeCode(
-				"google",
+				request.params.provider,
 				code,
 				state,
 			);
