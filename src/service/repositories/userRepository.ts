@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { DatabaseError } from "pg";
 import { ServerError } from "../../helpers/error";
 import { DbService } from "../db/db";
-import { Team, teams } from "../db/schema/team";
+import { teams } from "../db/schema/team";
 import { teamMembership } from "../db/schema/teamMembership";
 import { UserModel, users } from "../db/schema/user";
 import { UNIQUE_VIOLATION } from "../db/utils";
@@ -37,7 +37,7 @@ export class UserRepository {
 			.query.users.findFirst({ where: eq(users.id, id) });
 	}
 
-	async getTeamsForUser(userId: number){
+	async getTeamsForUser(userId: number) {
 		const rows = await this.dbService
 			.getClient()
 			.select()
