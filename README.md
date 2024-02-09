@@ -2,8 +2,10 @@
 ## Run test
 Start postgres `docker compose up`, run the migration `pnpm db:push`, run the test `pnpm test`
 
-## Commands
+## Change the schema
+Update schema in `service/db/schema`, generate migration `pnpm db:generate_migration`, apply `pnpm db:push`
 
+## Commands
 ### `pnpm dev`
 - **Runs the project in watch mode**, automatically recompiling TypeScript files on changes.
 
