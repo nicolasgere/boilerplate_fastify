@@ -3,14 +3,18 @@ import { Lifetime, asClass } from "awilix";
 import { FastifyReply } from "fastify";
 import { FastifyRequest } from "fastify/types/request";
 import { DbService } from "./db/db";
+import { TeamRepository } from "./repositories/teamRepository";
 import { UserRepository } from "./repositories/userRepository";
 import { ConfigurationService } from "./utils/configuration";
 import { Logger } from "./utils/logger";
+import { OpenIdService } from "./utils/openid";
 declare module "@fastify/awilix" {
 	interface Cradle {
 		userRepository: UserRepository;
+		teamRepository: TeamRepository;
 		dbService: DbService;
 		configurationService: ConfigurationService;
+		openIdService: OpenIdService;
 		logger: Logger;
 	}
 	interface RequestCradle {
@@ -25,6 +29,7 @@ export function registerService() {
 			lifetime: Lifetime.SINGLETON,
 		}),
 	});
+
 	diContainer.register({
 		dbService: asClass(DbService, {
 			lifetime: Lifetime.SINGLETON,
@@ -33,9 +38,20 @@ export function registerService() {
 			asyncInit: "init",
 		}),
 	});
+	diContainer.register({
+		openIdService: asClass(OpenIdService, {
+			lifetime: Lifetime.SINGLETON,
+		}),
+	});
 	diContainer.register(
 		"userRepository",
 		asClass(UserRepository, {
+			lifetime: Lifetime.SCOPED,
+		}),
+	);
+	diContainer.register(
+		"teamRepository",
+		asClass(TeamRepository, {
 			lifetime: Lifetime.SCOPED,
 		}),
 	);

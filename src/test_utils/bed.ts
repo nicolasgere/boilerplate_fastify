@@ -6,20 +6,25 @@ interface TestBed {
 		email: string;
 		password: string;
 		id: number;
-		password_hash: string;
+		password_hash: string | null;
 		sessionIdCookie: string;
+		team: {id: number, name: string}
 	};
 }
 
 export async function newBed(server: FastifyInstance): Promise<TestBed> {
-	const userRepository = server.diContainer.resolve("userRepository");
+	const {userRepository, teamRepository} = server.diContainer.cradle
 	const password = faker.internet.password();
 	const user = await userRepository.createUser({
 		email: faker.internet.email(),
 		password: password,
 	});
+	const team = await teamRepository.createTeam({
+		name: 'default',
+		ownerUserId: user.id
+	});
 
-	// Super weird, but the only way to get the cookie
+	// Super weird, but the only way to get the cookie stored in session
 	const response = await server.inject({
 		method: "POST",
 		url: "/api/v1/auth/login",
@@ -38,5 +43,5 @@ export async function newBed(server: FastifyInstance): Promise<TestBed> {
 		throw "cannot login in seed";
 	}
 
-	return { user: { ...user, password, sessionIdCookie } };
+	return { user: { ...user, password, sessionIdCookie, team } };
 }

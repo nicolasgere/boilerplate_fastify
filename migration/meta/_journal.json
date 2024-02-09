@@ -15,6 +15,13 @@
       "when": 1707454305694,
       "tag": "0001_optimal_caretaker",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1707463308295,
+      "tag": "0002_colorful_stellaris",
+      "breakpoints": true
     }
   ]
 }

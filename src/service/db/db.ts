@@ -4,6 +4,7 @@ import { ConfigurationService } from "../utils/configuration";
 import { teams } from "./schema/team";
 import { teamMembership } from "./schema/teamMembership";
 import { users } from "./schema/user";
+import { userLinkedAuth } from "./schema/userLinkedAuth";
 
 export class DbService {
 	private client: Client;
@@ -15,7 +16,7 @@ export class DbService {
 			connectionString: configurationService.get().database_url,
 		});
 		this.db = drizzle(this.client, {
-			schema: { users, teams, teamMembership },
+			schema: { users, teams, teamMembership, userLinkedAuth },
 		});
 	}
 	getClient() {

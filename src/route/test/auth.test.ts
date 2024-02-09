@@ -1,10 +1,12 @@
 import assert from "node:assert";
-import { after, before, describe, it } from "node:test";
+import { after, before, describe, it, mock } from "node:test";
 import { faker } from "@faker-js/faker";
 import { FastifyInstance } from "fastify";
 import { initServer } from "../../server";
 import { UNIQUE_EMAIL_ERROR } from "../../service/repositories/userRepository";
 import { newBed } from "../../test_utils/bed";
+import { OpenIdService } from "../../service/utils/openid";
+import { randomUUID } from "node:crypto";
 
 describe("Auth endpoint", () => {
 	let server: FastifyInstance;
@@ -86,4 +88,39 @@ describe("Auth endpoint", () => {
 			assert.equal(response.cookies.length, 0);
 		});
 	});
+	['google'].forEach((provider) => {
+		describe(`POST /api/v1/auth/${provider}/signup`, () => {
+			it("Should redirect", async () => {
+				const response = await server.inject({
+					method: "GET",
+					url: `/api/v1/auth/${provider}/signup`,
+				});
+				assert.equal(response.statusCode, 302);
+				if(!response.headers.location){
+					throw 'location should exist'
+				}
+				assert.doesNotThrow(() => {new URL(response.headers.location as string)});
+			});
+			it("Should create an account", async () => {
+				mock.method(OpenIdService.prototype, 'exchangeCode', (providerName: string, code: string, state: string) => {
+					assert.equal(providerName, provider)
+					assert.equal(code, 'code')
+					assert.equal(state, 'signup')
+					return {email: faker.internet.email(), uuid: randomUUID()}
+				} )
+				const response = await server.inject({
+					method: "GET",
+					url: `/auth/${provider}/callback`,
+					query: {
+						code: 'code',
+						state: 'signup'
+					}
+				});
+				assert.equal(response.statusCode, 200);
+				assert.equal(response.cookies[0].name, "userLoggedIn");
+				assert.equal(response.cookies[1].name, "sessionId");
+			});
+		});
+	})
+
 });

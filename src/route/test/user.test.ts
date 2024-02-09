@@ -14,7 +14,7 @@ describe("User endpoint", () => {
 	after(async () => {
 		await server.close();
 	});
-	describe("POST /api/v1/auth/signin", () => {
+	describe("POST /api/v1/whoami", () => {
 		it("Should succeed with logged", async () => {
 			const seed = await newBed(server);
 			const response = await server.inject({

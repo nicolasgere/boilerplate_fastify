@@ -13,7 +13,7 @@ export const users = pgTable(
 		id: serial("id").primaryKey(),
 		uuid: uuid("uuid").defaultRandom(),
 		email: varchar("email", { length: 256 }).notNull(),
-		password_hash: varchar("password_hash", { length: 512 }).notNull(),
+		password_hash: varchar("password_hash", { length: 512 }),
 	},
 	(users) => {
 		return {

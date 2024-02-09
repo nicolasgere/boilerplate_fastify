@@ -65,12 +65,18 @@ export function registerAuthRoute() {
 			},
 		},
 		async (request, reply) => {
-			const { userRepository, configurationService } = request.diScope.cradle;
+			const { userRepository, configurationService, teamRepository } =
+				request.diScope.cradle;
 			const config = configurationService.get();
 			const user = await userRepository.createUser({
 				email: request.body.email,
 				password: request.body.password,
 			});
+			await teamRepository.createTeam({
+				name: "default",
+				ownerUserId: user.id,
+			});
+
 			if (!user) {
 				throw new ServerError(
 					"AUTHENTICATION_FAIL",
@@ -78,17 +84,89 @@ export function registerAuthRoute() {
 					"request cannot be authorized",
 				);
 			}
-			//
 			reply.setCookie("userLoggedIn", "true", {
 				domain: config.cookie_base_domain,
 				expires: new Date(
 					Date.now() + config.cookie_expire_internal_seconds * 10000,
 				),
 			});
+			request.session.set("user_id", user.id);
+			await request.session.save();
 			return reply.status(201).send({
 				message: "Authentication successful",
 				user,
 			});
+		},
+	);
+	server.get(
+		"/api/v1/auth/:provider/signup",
+		{
+			schema: {
+				params: Type.Object({
+					provider: Type.Union([Type.Literal("google")]),
+				}),
+			},
+		},
+		async (request, reply) => {
+			const { openIdService } = request.diScope.cradle;
+			const redirectUrl = await openIdService.getRedirectUrl(
+				"google",
+				"signup",
+			);
+			reply.redirect(302, redirectUrl);
+		},
+	);
+	server.get(
+		"/auth/:provider/callback",
+		{
+			schema: {
+				params: Type.Object({
+					provider: Type.Union([Type.Literal("google")]),
+				}),
+				querystring: Type.Object({
+					code: Type.String(),
+					state: Type.String(),
+				}),
+			},
+		},
+		async (request, reply) => {
+			const { openIdService, userRepository, teamRepository, configurationService } =
+				request.diScope.cradle;
+			const config = configurationService.get()
+			const { code, state } = request.query;
+			const openIdUser = await openIdService.exchangeCode(
+				"google",
+				code,
+				state,
+			);
+			// Check if openIdUser have already a linked account
+			let user = await userRepository.getMaybeUserByAuthUUID(openIdUser.uuid);
+			if (!user) {
+				// Check if openIdUser have already an account with email
+				user = await userRepository.getMaybeUserByEmail(openIdUser.email);
+				if (!user) {
+					user = await userRepository.createUserWithoutPassword(
+						openIdUser.email,
+					);
+				}
+				await userRepository.createUserLinked({
+					userId: user.id,
+					uuid: openIdUser.uuid,
+				});
+				await teamRepository.createTeam({
+					name: "default",
+					ownerUserId: user.id,
+				});
+			}
+			reply.setCookie("userLoggedIn", "true", {
+				domain: config.cookie_base_domain,
+				expires: new Date(
+					Date.now() + config.cookie_expire_internal_seconds * 10000,
+				),
+			});
+			request.session.set("user_id", user.id);
+			await request.session.save();
+			reply.status(200).send("ok");
 		},
 	);
 }
