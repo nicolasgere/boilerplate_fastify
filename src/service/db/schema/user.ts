@@ -1,12 +1,19 @@
 import { Omit } from "@sinclair/typebox";
-import { pgTable, serial, uniqueIndex, varchar } from "drizzle-orm/pg-core";
+import {
+	pgTable,
+	serial,
+	uniqueIndex,
+	uuid,
+	varchar,
+} from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
 export const users = pgTable(
 	"users",
 	{
 		id: serial("id").primaryKey(),
+		uuid: uuid("uuid").defaultRandom(),
 		email: varchar("email", { length: 256 }).notNull(),
-		password: varchar("password", { length: 256 }).notNull(),
+		password_hash: varchar("password_hash", { length: 512 }).notNull(),
 	},
 	(users) => {
 		return {
@@ -17,4 +24,7 @@ export const users = pgTable(
 
 export const insertUserSchema = createInsertSchema(users);
 const selectSchema = createSelectSchema(users);
-export const selectUserSchema = Omit(selectSchema, ["password"]);
+export type UserModel = typeof users.$inferSelect;
+export const selectUserWithoutPasswordSchema = Omit(selectSchema, [
+	"password_hash",
+]);

@@ -1,4 +1,6 @@
 # Project Commands Overview
+## Run test
+Start postgres `docker compose up`, run the migration `pnpm db:push`, run the test `pnpm test`
 
 ## Commands
 
@@ -21,4 +23,4 @@
 - **Launches Drizzle Kit Studio**, a UI for inspecting and interacting with your database.
 
 ### `pnpm format`
-- **Format code with biume**,
+- **Format code with biome**,

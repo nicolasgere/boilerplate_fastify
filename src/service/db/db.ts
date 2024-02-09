@@ -1,6 +1,8 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Client } from "pg";
 import { ConfigurationService } from "../utils/configuration";
+import { teams } from "./schema/team";
+import { teamMembership } from "./schema/teamMembership";
 import { users } from "./schema/user";
 
 export class DbService {
@@ -12,7 +14,9 @@ export class DbService {
 		this.client = new Client({
 			connectionString: configurationService.get().database_url,
 		});
-		this.db = drizzle(this.client, { schema: { users } });
+		this.db = drizzle(this.client, {
+			schema: { users, teams, teamMembership },
+		});
 	}
 	getClient() {
 		return this.db;

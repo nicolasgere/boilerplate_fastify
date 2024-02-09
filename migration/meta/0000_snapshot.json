@@ -1,5 +1,5 @@
 {
-  "id": "cf27b880-ea7a-43e2-a60f-f62f509e16dd",
+  "id": "ac34851b-5083-445c-9936-2b56bf1ae2ef",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -14,11 +14,24 @@
           "primaryKey": true,
           "notNull": true
         },
+        "uuid": {
+          "name": "uuid",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "gen_random_uuid()"
+        },
         "email": {
           "name": "email",
           "type": "varchar(256)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
+        },
+        "password_hash": {
+          "name": "password_hash",
+          "type": "varchar(512)",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {
