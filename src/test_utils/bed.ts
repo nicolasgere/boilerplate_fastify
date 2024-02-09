@@ -8,20 +8,20 @@ interface TestBed {
 		id: number;
 		password_hash: string | null;
 		sessionIdCookie: string;
-		team: {id: number, name: string}
+		team: { id: number; name: string };
 	};
 }
 
 export async function newBed(server: FastifyInstance): Promise<TestBed> {
-	const {userRepository, teamRepository} = server.diContainer.cradle
+	const { userRepository, teamRepository } = server.diContainer.cradle;
 	const password = faker.internet.password();
 	const user = await userRepository.createUser({
 		email: faker.internet.email(),
 		password: password,
 	});
 	const team = await teamRepository.createTeam({
-		name: 'default',
-		ownerUserId: user.id
+		name: "default",
+		ownerUserId: user.id,
 	});
 
 	// Super weird, but the only way to get the cookie stored in session

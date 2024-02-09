@@ -19,7 +19,7 @@ export class TeamRepository {
 			await tx
 				.insert(teamMembership)
 				.values({ userId: ownerUserId, teamId: team.id });
-			return team
+			return team;
 		});
 	}
 }

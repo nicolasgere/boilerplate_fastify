@@ -17,8 +17,7 @@ const dev: Configuration = {
 	database_url: "postgres://dev:dev@localhost:5432/dev",
 	cookie_base_domain: "localhost",
 	cookie_expire_internal_seconds: 300000,
-	google_client_id:
-		"xxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com",
+	google_client_id: "xxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com",
 	google_client_secret: "XXXXXX-XXXXXXXXXXXXXXXX",
 	server_domain: "http://localhost:8080",
 };

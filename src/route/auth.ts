@@ -130,9 +130,13 @@ export function registerAuthRoute() {
 			},
 		},
 		async (request, reply) => {
-			const { openIdService, userRepository, teamRepository, configurationService } =
-				request.diScope.cradle;
-			const config = configurationService.get()
+			const {
+				openIdService,
+				userRepository,
+				teamRepository,
+				configurationService,
+			} = request.diScope.cradle;
+			const config = configurationService.get();
 			const { code, state } = request.query;
 			const openIdUser = await openIdService.exchangeCode(
 				request.params.provider,

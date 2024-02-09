@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "test": "node --import tsx ./src/test_utils/runner.ts",
+    "test": "node --import tsx ./src/test_utils/runner.ts ",
     "build": "tsc --project tsconfig.json",
     "db:generate_migration": "pnpm drizzle-kit generate:pg",
     "db:push": "pnpm drizzle-kit push:pg",

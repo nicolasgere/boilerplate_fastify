@@ -2,8 +2,8 @@ import assert from "node:assert";
 import { after, before, describe, it } from "node:test";
 import { faker } from "@faker-js/faker";
 import { FastifyInstance } from "fastify";
-import { initServer } from "../../server";
-import { newBed } from "../../test_utils/bed";
+import { initServer } from "../server";
+import { newBed } from "../test_utils/bed";
 
 describe("User endpoint", () => {
 	let server: FastifyInstance;

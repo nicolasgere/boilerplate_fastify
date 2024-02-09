@@ -11,7 +11,7 @@ if (!process.env.CI) {
 
 run({
 	files: globSync("src/**/*.test.ts"),
-	concurrency: true
+	concurrency: true,
 })
 	.compose(testReporter)
 	.pipe(process.stdout);
